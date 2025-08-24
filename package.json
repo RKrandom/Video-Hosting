@@ -1,0 +1,15 @@
+{
+  "name": "video-hosting",
+  "version": "1.0.0",
+  "description": "Practicing complete backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "backned"
+  ],
+  "author": "Raunak Kr",
+  "license": "ISC"
+}
