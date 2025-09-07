@@ -8,3 +8,5 @@ const registerUser = useAsyncError(async (req, res, next) => {
         message: "User registered successfully" 
     });
 });
+
+export { registerUser };
