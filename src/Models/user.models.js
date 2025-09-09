@@ -11,14 +11,14 @@ const userSchema = new Schema({
         trim: true, //Automatically removes extra spaces from the beginning and end of the string
         index: true //Creates a database index on this field for faster searches
     },
-    emal: {
+    email: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
         trim: true
     },
-    fullnme: {
+    fullname: {
         type: String,
         required: true,
         trim: true,
