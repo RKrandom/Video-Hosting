@@ -1,4 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import User from "../Models/user.models.js";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
     // Registration logic here, writing if db or anything fails it will be caught by asyncHandler
@@ -17,9 +20,29 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
     
 
-        const {fullname, email, password} = req.body;
+        const {fullname, email, username, password} = req.body;
         console.log("email: ", email);
+
+        if (
+            [fullname, email, username, password].some(field => 
+                field?.trim() === "")
+            ) {
+                throw new ApiError(400, "All fields are required");
+            }
+
+            const existedUser = User.findOne({   //check if user already exist. So User is model which will interact with db.
+                //Here findOne is mongoose method which will find 1st one user based on condition
+                $or: [{ email }, { username }]
+            })
+
+            if (existedUser) {
+                throw new ApiError(409, "User already exist with this email or username");
+            }
+
+
+
     })
+
 
 export { 
     registerUser
