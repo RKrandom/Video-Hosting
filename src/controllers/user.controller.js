@@ -39,7 +39,13 @@ const registerUser = asyncHandler(async (req, res, next) => {
                 throw new ApiError(409, "User already exist with this email or username");
             }
 
+            // Get the local path of the uploaded files y multer to upload to cloudinary or aws s3
+            const avatarLocalPath = req.files?.avatar[0]?.path; //multer will add files object to req. why files? because we are uploading multiple files and it might be that they dont have access to avatar or coverImage
+            const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
+            if (!avatarLocalPath) {
+                throw new ApiError(400, "Avatar file is required");
+            }            
 
     })
 
