@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
             }
 
             // Get the local path of the uploaded files y multer to upload to cloudinary or aws s3
-            
+
             const avatarLocalPath = req.files?.avatar[0]?.path; //multer will add files object to req. why files? because we are uploading multiple files and it might be that they dont have access to avatar or coverImage
             const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
@@ -57,11 +57,27 @@ const registerUser = asyncHandler(async (req, res, next) => {
                 throw new ApiError(400, "Avatar file is required");
             }
 
-            if (!coverImage) {
-                throw new ApiError(400, "Cover image file is required");
-            }
 
-    })
+            //Create user object and save to database
+
+            const user = await User.create({
+                fullname,
+                avatar: avatar.url,
+                coverImage: coverImage.url || "", //if no cover image then empty string. As cover image is optional
+                email,
+                password,
+                username: username.toLowerCase()
+            });
+            
+            //Remove password from user object before sending response
+
+            const createdUser = await User.findById(user._id).select(
+                "-password -refreshToken"
+            ); //-ve sign means exclude these fields
+
+            if (!createdUser) {
+                throw new ApiError(500, "Something went wrong while creating user");
+            }
 
 
 export { 
