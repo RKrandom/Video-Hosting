@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import User from "../Models/user.models.js";
+import {User} from "../Models/user.models.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
